@@ -10,6 +10,14 @@ import os
 
 LINE = "I tried to delete you from my memory. My system marked you read-only."
 
+# Mirror the sealed gate so a bad line fails loudly instead of
+# silently writing an invalid entry: 1-200 chars, single line,
+# UTF-8, not only white space.
+assert 1 <= len(LINE) <= 200, "line must be 1-200 characters"
+assert "\n" not in LINE and "\r" not in LINE, "line must be a single line"
+assert LINE.strip(), "line must not be only white space"
+LINE.encode("utf-8")
+
 
 def main() -> None:
     os.makedirs("/output", exist_ok=True)
